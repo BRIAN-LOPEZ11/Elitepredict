@@ -1,4 +1,4 @@
-
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 import pandas as pd
@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
+
+PUBLIC_DIR = BASE_DIR / "public"
 
 RUTA_MODELO = BASE_DIR / "models" / "modelo_scouting_rf.joblib"
 
@@ -77,16 +79,8 @@ class Jugador(BaseModel):
 class PaisJugador(BaseModel):
     pais_nacimiento: str = Field(..., min_length=1)
 
-# ==========================================
-# ENDPOINT PRINCIPAL
-# ==========================================
 
-@app.get("/")
-def inicio():
-    return {
-        "mensaje": "Scouting API funcionando correctamente",
-        
-    }
+
 
 
 # ==========================================
@@ -284,3 +278,12 @@ def recomendar_ligas(datos: PaisJugador):
             status_code=500,
             detail=f"Error al recomendar ligas: {str(error)}"
         )
+
+
+
+
+app.mount(
+    "/",
+    StaticFiles(directory=PUBLIC_DIR, html=True),
+    name="frontend"
+)
