@@ -1,10 +1,5 @@
-
-// ==========================================
-// SCOUTVISION - FRONTEND
-// ==========================================
-
 // Único servicio al que se conecta el navegador.
-const API_URL = "http://127.0.0.1:5000/api";
+const API_URL = "";
 
 // ==========================================
 // ELEMENTOS DEL FORMULARIO
@@ -408,7 +403,7 @@ recommendLeagueButton.addEventListener("click", async () => {
 
     try {
 
-        const respuesta = await fetch(API_URL, {
+        const respuesta = await fetch(`${API_URL}/recommend-leagues`, {
 
             method: "POST",
 
@@ -498,7 +493,7 @@ form.addEventListener("submit", async (event) => {
 
     try {
 
-        const respuesta = await fetch(API_URL, {
+        const respuesta = await fetch(`${API_URL}/predict`, {
 
             method: "POST",
 

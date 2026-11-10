@@ -4,12 +4,21 @@ from pydantic import BaseModel, Field
 import pandas as pd
 import joblib
 import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+RUTA_MODELO = BASE_DIR / "models" / "modelo_scouting_rf.joblib"
+
+RUTA_MODELO_LIGAS = BASE_DIR / "models" / "modelo_recomendacion_ligas.joblib"
+
+
 
 # ==========================================
 # CONFIGURACIÓN Y CARGA DEL MODELO
 # ==========================================
 
-RUTA_MODELO = "models/modelo_scouting_rf.joblib"
+
 
 if not os.path.exists(RUTA_MODELO):
     raise FileNotFoundError(
@@ -27,7 +36,7 @@ mediana_general = paquete["mediana_general"]
 # CONFIGURACIÓN Y CARGA DEL MODELO DE LIGAS
 # ==========================================
 
-RUTA_MODELO_LIGAS = "models/modelo_recomendacion_ligas.joblib"
+
 
 if not os.path.exists(RUTA_MODELO_LIGAS):
     raise FileNotFoundError(
@@ -60,8 +69,8 @@ app = FastAPI(
 class Jugador(BaseModel):
     position: str = Field(..., min_length=1)
     sub_position: str = Field(default="Unknown")
-    height_in_cm: float | None = Field(default=None, gt=0, le=250)
-    age: float = Field(..., ge=15, le=60)
+    height_in_cm: float | None = Field(default=None, gt=150, le=250)
+    age: float = Field(..., ge=15, le=45)
     foot: str = Field(default="Unknown")
 
 
