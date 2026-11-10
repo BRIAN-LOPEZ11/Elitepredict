@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Elite Predicts | Football Intelligence</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- CABECERA -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">E</div>
+                <div>
+                    <h2>ELITE <span>PREDICTS</span></h2>
+                    <small>FOOTBALL INTELLIGENCE</small>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <p class="section-label">PRINCIPAL</p>
+
+                <a href="#" class="nav-item active">
+                    Análisis de jugadores
+                </a>
+            </div>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <p class="breadcrumb">ELITE PREDICTS / ANÁLISIS</p>
+                    <h1>Evaluación de jugadores</h1>
+                </div>
+
+                <div class="topbar-right">
+                    <span class="model-tag">RANDOM FOREST</span>
+                    <div class="avatar">EP</div>
+                </div>
+            </header>
+
+            <section class="welcome-section">
+                <div>
+                    <p class="eyebrow">INTELIGENCIA DEPORTIVA</p>
+                    <h2>Descubre el próximo talento.</h2>
+                    <p>
+                        Analiza el perfil de un futbolista y evalúa su
+                        potencial mediante nuestro modelo de Machine Learning.
+                    </p>
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+
+                <!-- FORMULARIO -->
+                <section class="panel form-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <span class="panel-number">01 / PERFIL</span>
+                            <h3>Datos del jugador</h3>
+                        </div>
+                    </div>
+
+                    <form id="scoutingForm">
+
+                        <div class="form-group">
+                            <label for="playerName">Nombre del jugador</label>
+
+                            <input
+                                type="text"
+                                id="playerName"
+                                placeholder="Ej. Lionel Messi"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="position">Posición principal</label>
+
+                            <select id="position" required>
+                                <option value="Defender" selected>Defender</option>
+                                <option value="Midfield">Midfield</option>
+                                <option value="Attack">Attack</option>
+                                <option value="Goalkeeper">Goalkeeper</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sub_position">Subposición</label>
+
+                            <select id="sub_position" required>
+                                <option value="Centre-Back" selected>Centre-Back</option>
+                                <option value="Right-Back">Right-Back</option>
+                                <option value="Left-Back">Left-Back</option>
+
+                                <option value="Central Midfield">Central Midfield</option>
+                                <option value="Defensive Midfield">Defensive Midfield</option>
+                                <option value="Attacking Midfield">Attacking Midfield</option>
+                                <option value="Left Midfield">Left Midfield</option>
+                                <option value="Right Midfield">Right Midfield</option>
+
+                                <option value="Centre-Forward">Centre-Forward</option>
+                                <option value="Left Winger">Left Winger</option>
+                                <option value="Right Winger">Right Winger</option>
+                                <option value="Second Striker">Second Striker</option>
+
+                                <option value="Goalkeeper">Goalkeeper</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+                                <label for="age">Edad</label>
+
+                                <input
+                                    type="number"
+                                    id="age"
+                                    value="22"
+                                    min="18"
+                                    max="60"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="height">Altura (cm)</label>
+
+                                <input
+                                    type="number"
+                                    id="height"
+                                    value="185"
+                                    min="1"
+                                    max="250"
+                                >
+
+                                <small class="field-hint">
+                                    Opcional
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="foot">Pie dominante</label>
+
+                            <select id="foot">
+                                <option value="right" selected>Derecho</option>
+                                <option value="left">Izquierdo</option>
+                                <option value="both">Ambidiestro</option>
+                                <option value="Unknown">Desconocido</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" id="analyzeButton">
+                            <span>Analizar jugador</span>
+                            <span>→</span>
+                        </button>
+
+                    </form>
+
+                </section>
+
+                <!-- RESULTADOS -->
+                <section class="panel result-panel" id="resultados">
+
+                    <div class="panel-heading">
+                        <div>
+                            <span class="panel-number">02 / RESULTADO</span>
+                            <h3>Informe de scouting</h3>
+                        </div>
+                    </div>
+
+                    <div id="emptyState" class="empty-state">
+                        <div class="empty-icon">◎</div>
+
+                        <h3>Esperando análisis</h3>
+
+                        <p>
+                            Completa el perfil del futbolista y ejecuta
+                            el análisis para conocer su clasificación.
+                        </p>
+                    </div>
+
+                    <div id="loadingState" class="loading-state hidden">
+                        <div class="loader"></div>
+                        <h3>Analizando jugador...</h3>
+                        <p>El modelo Random Forest está procesando los datos.</p>
+                    </div>
+
+                    <div id="errorState" class="error-state hidden">
+                        <h3>No fue posible realizar el análisis</h3>
+                        <p id="errorMessage"></p>
+                    </div>
+
+                    <!-- PRIMER MODELO: CLASIFICACIÓN -->
+                    <div id="predictionResult" class="prediction-result hidden">
+
+                        <span class="result-label">CLASIFICACIÓN DEL JUGADOR</span>
+
+                        <div id="categoryBadge" class="category-badge">
+                            ÉLITE
+                        </div>
+
+                        <div class="probability-header">
+                            <span>Probabilidad de Élite</span>
+                            <strong id="probabilityValue">0%</strong>
+                        </div>
+
+                        <div class="progress-track">
+                            <div id="probabilityBar" class="progress-bar"></div>
+                        </div>
+
+                        <div class="result-description">
+                            <h4 id="resultTitle">Resultado del análisis</h4>
+                            <p id="resultMessage"></p>
+                        </div>
+
+                        <div class="result-footer">
+                            <span>MODELO RANDOM FOREST</span>
+                            <span>ELITE PREDICTS AI</span>
+                        </div>
+
+                    </div>
+
+                    <!-- SEGUNDO MODELO: RECOMENDACIÓN DE LIGAS -->
+                    <div id="leagueRecommendationSection" class="hidden">
+
+                        <div class="result-description">
+                            <h4>Recomendación de liga según país</h4>
+
+                            <p>
+                                Identifica las ligas donde los jugadores
+                                de un determinado país presentan mejores
+                                probabilidades estimadas de pertenecer
+                                a la categoría Élite.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="showLeagueButton"
+                        >
+                            <span>Recomendación de liga según país</span>
+                            <span>→</span>
+                        </button>
+
+                        <!-- FORMULARIO DEL PAÍS -->
+                        <div id="leagueForm" class="hidden">
+
+                            <div class="form-group">
+                                <label for="countryInput">
+                                    País de nacimiento
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="countryInput"
+                                    placeholder="Ej. Argentina"
+                                >
+                            </div>
+
+                            <button
+                                type="button"
+                                id="recommendLeagueButton"
+                            >
+                                <span>Predecir probabilidades mejores ligas</span>
+                                <span>→</span>
+                            </button>
+
+                        </div>
+
+                        <!-- CARGA DE RECOMENDACIÓN -->
+                        <div id="leagueLoadingState" class="loading-state hidden">
+                            <div class="loader"></div>
+                            <h3>Analizando ligas...</h3>
+                            <p>Calculando las probabilidades estimadas.</p>
+                        </div>
+
+                        <!-- ERROR DE RECOMENDACIÓN -->
+                        <div id="leagueErrorState" class="error-state hidden">
+                            <h3>No fue posible recomendar ligas</h3>
+                            <p id="leagueErrorMessage"></p>
+                        </div>
+
+                        <!-- RESULTADOS DE RECOMENDACIÓN -->
+                        <div id="leagueResults" class="hidden">
+
+                            <div class="result-description">
+                                <h4 id="leagueResultTitle">
+                                    Mejores ligas recomendadas
+                                </h4>
+
+                                <p id="leagueResultDescription"></p>
+                            </div>
+
+                            <div class="league-table-container">
+                                <table class="league-table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Posición</th>
+                                            <th>Liga</th>
+                                            <th>País</th>
+                                            <th>Probabilidad Élite</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="leagueTableBody">
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            <small class="field-hint">
+                                Las probabilidades son estimaciones del
+                                modelo y no garantizan el rendimiento deportivo.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <footer class="footer">
+                <div class="footer-top">
+                    <span>ELITE PREDICTS © 2026</span>
+                    <span>Proyecto académico de minería de datos</span>
+                </div>
+                <p class="footer-disclaimer">
+                    Proyecto con fines exclusivamente académicos y sin ánimo de lucro.
+                    No está afiliado, patrocinado ni respaldado por Transfermarkt.
+                    Los datos provienen de un conjunto de datos público basado en
+                    Transfermarkt disponible en GitHub; el diseño es solo una referencia
+                    visual. Transfermarkt y sus marcas pertenecen a sus respectivos propietarios.
+                </p>
+            </footer>
+
+        </main>
+
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
