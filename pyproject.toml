@@ -3,15 +3,5 @@ name = "elitepredict"
 version = "1.0.0"
 requires-python = ">=3.12"
 
-dependencies = [
-    "fastapi==0.162.0",
-    "pydantic==2.14.2",
-    "pandas==3.1.0",
-    "numpy==2.5.4",
-    "scikit-learn==1.9.1",
-    "scipy==1.18.1",
-    "joblib==1.6.0"
-]
-
 [tool.vercel]
 entrypoint = "main_api:app"
